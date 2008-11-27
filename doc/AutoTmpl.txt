@@ -1,0 +1,159 @@
+*AutoTmpl.txt*	Plugin for using templates when editing new files
+*AutoTmpl*
+
+Author: Lluis Vilanova <vilanova in ac upc edu>
+Last Change: 2008-09-16
+
+Automatically use and insert dynamic fields in a template when creating new files.
+
+==============================================================================
+
+1. Overview                                     |AutoTmpl-overview|
+2. Installing                                   |AutoTmpl-install|
+3. Usage                                        |AutoTmpl-usage|
+4. Installing new templates                     |AutoTmpl-new-templates|
+5. Predefined variables in templates            |AutoTmpl-predefined|
+6. Thanks                                       |AutoTpl-thanks|
+
+==============================================================================
+1. Overview~
+                                                *AutoTmpl-overview*
+The purpose of this script is to automatically load predefined template files
+when editing new files.
+
+The templates can contain dynamically filled fields in order to customize them
+at creation time.
+
+==============================================================================
+2. Installing~
+                                                *AutoTmpl-install*
+To install it for the first time, download the plugin tarball from:
+
+    http://www.vim.org/scripts/script.php?script_id=2460
+
+and decompress it into your local vim directory (~/.vim).
+
+Once installed you can update it with |GetLatestVimScripts|.
+
+In order to update your help tags you have to run >
+        :helptags ~/.vim/doc
+<
+
+You can see this help with >
+        help AutoTmpl
+>
+
+==============================================================================
+3. Usage~
+                                                *AutoTmpl-usage*
+3.1. Disabling the plugin~
+
+The plugin can be disabled with >
+        let g:loaded_autotempl = 1
+<
+
+3.2. Controlling load of templates~
+
+The creation of templates can be disabled with >
+        let g:load_template = "no"
+>
+
+The user can be asked wether to load a template with >
+        let g:load_template = "ask"
+>
+
+3.3. Navigation between manual fields~
+
+Some fields in the template are meant to be filled manually. Navigation
+between such fields is done through <C-J>.
+
+3.4. Template selection~
+
+Templates are searched in (the first match is used):
+
+        * $VIMTEMPLATES if the environment variable is set
+        * ./templates
+        * ~/.vim/templates
+        * $VIM/templates
+        * $VIMRUNTIME/templates
+
+3.5. Manual load of templates~
+
+You can force the load of a predefined template with >
+        LoadTemplate
+>
+
+You can load any file as a template with >
+        LoatTemplateFile(filepath)
+>
+
+==============================================================================
+4. Installing new templates~
+                                                *AutoTmpl-new-templates*
+Place your templates in any of the search directories.
+
+Templates are named as 'template.extension', where 'extension' is the
+extension you want to provide the template for (e.g. 'template.c' for C
+files).
+
+For files with no extension (e.g.: Makefile), 'extenstion' is searched in the
+templates directory.
+
+Some text in the template is interpreted to dynamically customize it:
+
+Text surrounded by '<! ... !>' is expanded by vim.
+
+Eg: expand to the file name >
+        <!expand("%")!>
+<
+
+Eg: expand to the current time when the file is created >
+        <!strftime('%c')!>
+<
+
+Eg: expand to the value of the 'g:author' variable >
+        <!g:author!>
+<
+
+
+Text surrounded by '<? ... ?>' is interpreted by vim. Used to execute some
+code by vim, for example, to dinamically include/exclude parts of a template.
+
+Eg: place the name of the file being created into the 's:fn' variable >
+        <¿let s:fn=expand("%")¿>
+<
+
+Text surrounded by '<+ ... +>' will be used as markers for fields for the user
+to fill-in.
+
+==============================================================================
+5. Predefined variables in templates~
+                                                *AutoTmpl-predefined*
+The templates provided by this package use some variables that the user can
+set in her |vimrc| file:
+
+        * g:author
+          The full name of the author. Eg: >
+                let g:author = 'Lluis Vilanova'
+<
+
+        * g:email
+          The email of the author. Eg: >
+                let g:email = 'vilanova in ac upc edu
+<
+
+        * g:footer
+          The footer with vim configuration options to use in the newly
+          created file, without the "vim:" prefix and ":" suffix. Eg: >
+                let g:footer = 'set backspace=2 tabstop=4 shiftwidth=4 textwidth=80 foldmethod=marker expandtab'
+<
+
+==============================================================================
+6. Thanks~
+                                                *AutoTmpl-thanks*
+This plugin is based on the 'templatefile' and 'mu-template' plugins, in an
+attempt to blend the best from both.
+
+==============================================================================
+
+ vim:tw=78:fo=tcq2:isk=!-~,^*,^\|,^\":ts=8:ft=help:norl:
